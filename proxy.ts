@@ -10,8 +10,16 @@ export function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow static files and Next internals
-  if (pathname.startsWith("/_next") || pathname.startsWith("/icon") || pathname === "/manifest.json") {
+  // Allow static files, PWA assets and Next internals
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/icon") ||
+    pathname === "/manifest.json" ||
+    pathname === "/sw.js" ||
+    pathname === "/sw.js.map" ||
+    pathname.startsWith("/workbox-") ||
+    pathname.startsWith("/fallback-")
+  ) {
     return NextResponse.next();
   }
 
