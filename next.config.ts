@@ -10,7 +10,7 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-  // future: postgres migration will only require DATABASE_URL change
+  output: "standalone",
 };
 
 export default withPWA(nextConfig);
