@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 
 const navItems = [
   { href: "/report", label: "Report" },
@@ -11,12 +10,11 @@ const navItems = [
 ];
 
 interface Props {
-  user: { email: string; name?: string | null };
+  user: { email?: string | null; name?: string | null };
 }
 
 export default function Sidebar({ user }: Props) {
   const pathname = usePathname();
-  const router = useRouter();
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 h-full w-64 flex-col border-r bg-white px-4 py-6">
@@ -42,7 +40,7 @@ export default function Sidebar({ user }: Props) {
       </nav>
 
       <button
-        onClick={async () => { await signOut(); router.push("/login"); }}
+        onClick={() => signOut({ callbackUrl: "/login" })}
         className="text-sm text-gray-500 hover:text-black text-left px-3 py-2 min-h-[44px]"
       >
         Sign out

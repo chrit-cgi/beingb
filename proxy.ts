@@ -5,12 +5,10 @@ const publicPaths = ["/login", "/api/auth"];
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Allow public paths
   if (publicPaths.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();
   }
 
-  // Allow static files, PWA assets and Next internals
   if (
     pathname.startsWith("/_next") ||
     pathname === "/manifest.json" ||
@@ -19,8 +17,11 @@ export function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check for session cookie (better-auth sets this)
-  const hasSession = req.cookies.has("better-auth.session_token");
+  // Auth.js sets this cookie (prefixed with __Secure- on HTTPS)
+  const hasSession =
+    req.cookies.has("next-auth.session-token") ||
+    req.cookies.has("__Secure-next-auth.session-token");
+
   if (!hasSession) {
     return NextResponse.redirect(new URL("/login", req.url));
   }

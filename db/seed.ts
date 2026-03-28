@@ -1,31 +1,18 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
+import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
+import { randomUUID } from "crypto";
 import * as schema from "./schema";
 
 const sqlite = new Database("./dev.db");
 const db = drizzle(sqlite, { schema });
 
-const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "sqlite",
-    schema: {
-      user: schema.users,
-      session: schema.sessions,
-      account: schema.accounts,
-      verification: schema.verifications,
-    },
-  }),
-  emailAndPassword: { enabled: true },
-  baseURL: "http://localhost:3000",
-});
-
 async function seed() {
   console.log("Seeding database...");
 
   const existing = await db.query.users.findFirst({
-    where: (u, { eq }) => eq(u.email, "lucy@lucy.eu"),
+    where: eq(schema.users.email, "lucy@lucy.eu"),
   });
 
   if (existing) {
@@ -33,21 +20,14 @@ async function seed() {
     process.exit(0);
   }
 
-  await auth.api.signUpEmail({
-    body: {
-      email: "lucy@lucy.eu",
-      password: "changeme123",
-      name: "Lucy",
-    },
+  const hashedPassword = await bcrypt.hash("changeme123", 12);
+  await db.insert(schema.users).values({
+    id: randomUUID(),
+    email: "lucy@lucy.eu",
+    name: "Lucy",
+    password: hashedPassword,
+    role: "admin",
   });
-
-  // Set admin role
-  await db
-    .update(schema.users)
-    .set({ role: "admin" })
-    .where(
-      (await import("drizzle-orm")).eq(schema.users.email, "lucy@lucy.eu")
-    );
 
   console.log("Seed complete. User: lucy@lucy.eu / changeme123 (role: admin)");
   process.exit(0);

@@ -1,10 +1,9 @@
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { getReports } from "@/lib/services/reports";
 import ViewText from "@/app/(ui)/components/report/ViewText";
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth();
   const reports = session ? await getReports(session.user.id) : [];
 
   return (

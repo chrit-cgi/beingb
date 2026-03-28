@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { getReportForDate } from "@/lib/services/reports";
 import ReportEditor from "@/app/(ui)/components/report/Editor";
@@ -8,7 +7,7 @@ function todayISO() {
 }
 
 export default async function ReportPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth();
   const today = todayISO();
   const existing = session ? await getReportForDate(session.user.id, today) : null;
 

@@ -11,11 +11,11 @@ export async function getUserById(id: string) {
 }
 
 export async function listUsers() {
-  return db.select().from(users).orderBy(users.createdAt);
+  return db.select().from(users);
 }
 
 export async function updateUserRole(id: string, role: "admin" | "user") {
-  return db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, id));
+  return db.update(users).set({ role }).where(eq(users.id, id));
 }
 
 export async function deleteUser(id: string) {
