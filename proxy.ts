@@ -13,14 +13,8 @@ export function proxy(req: NextRequest) {
   // Allow static files, PWA assets and Next internals
   if (
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/icon") ||
     pathname === "/manifest.json" ||
-    pathname === "/sw.js" ||
-    pathname === "/sw.js.map" ||
-    pathname.startsWith("/workbox-") ||
-    pathname.startsWith("/fallback-") ||
-    pathname.startsWith("/swe-worker-") ||
-    pathname.startsWith("/worker-")
+    /\.(js|css|png|jpg|jpeg|svg|ico|woff|woff2|ttf|map|txt|webmanifest)$/.test(pathname)
   ) {
     return NextResponse.next();
   }
@@ -35,6 +29,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  // Exclude Next internals, static assets, and root-level JS/CSS files (PWA workers)
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.js$|.*\\.css$|.*\\.png$|.*\\.ico$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
