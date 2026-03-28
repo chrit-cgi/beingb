@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# env files — never commit secrets
+.env.local
+.env.*.local
+
+# database
+*.db
+*.db-shm
+*.db-wal
+
+# PWA generated files
+public/sw.js
+public/workbox-*.js
+public/worker-*.js
+public/fallback-*.js
+public/sw.js.map
+public/workbox-*.js.map
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*

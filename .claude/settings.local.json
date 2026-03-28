@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/cmsliepen/**)",
+      "Bash(npx create-next-app@latest beingb --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --turbopack)",
+      "Bash(npx --yes create-next-app@latest beingb --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --turbopack --no-react-compiler)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
