@@ -4,12 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "BeingB",
   description: "Daily report app",
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "BeingB",
-  },
+  // PWA manifest re-enabled once proper icons are in place
 };
 
 export const viewport: Viewport = {
