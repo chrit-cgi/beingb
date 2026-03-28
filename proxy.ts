@@ -18,7 +18,9 @@ export function proxy(req: NextRequest) {
     pathname === "/sw.js" ||
     pathname === "/sw.js.map" ||
     pathname.startsWith("/workbox-") ||
-    pathname.startsWith("/fallback-")
+    pathname.startsWith("/fallback-") ||
+    pathname.startsWith("/swe-worker-") ||
+    pathname.startsWith("/worker-")
   ) {
     return NextResponse.next();
   }
