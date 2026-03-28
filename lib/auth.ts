@@ -17,7 +17,10 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: [process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000"],
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000",
+    "http://localhost:3000",
+  ],
 });
 
 export type Session = typeof auth.$Infer.Session;
