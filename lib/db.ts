@@ -12,16 +12,23 @@ import type * as schema from "@/db/schema";
 type DB = BetterSQLite3Database<typeof schema>;
 
 let _db: DB | null = null;
+let _sqlite: any = null;
 
 export function getDb(): DB {
   if (!_db) {
     const Database = require("better-sqlite3");
     const { drizzle } = require("drizzle-orm/better-sqlite3");
     const s = require("@/db/schema");
-    const path = process.env.DATABASE_URL?.replace("file:", "") ?? "./dev.db";
-    _db = drizzle(new Database(path), { schema: s });
+    const dbPath = process.env.DATABASE_URL?.replace("file:", "") ?? "./dev.db";
+    _sqlite = new Database(dbPath);
+    _db = drizzle(_sqlite, { schema: s });
   }
   return _db!;
+}
+
+export function getSqlite() {
+  if (!_sqlite) getDb();
+  return _sqlite;
 }
 
 // Convenience proxy so existing `db.query.*` calls keep working
