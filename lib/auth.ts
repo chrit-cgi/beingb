@@ -14,6 +14,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("[auth] authorize called for:", credentials?.email);
         if (!credentials?.email || !credentials?.password) return null;
 
         // Import lazily so DB is never touched at build time
