@@ -8,10 +8,11 @@
 - Next.js App Router, TypeScript strict mode.
 
 ## Auth
-- better-auth, email/password only
+- NextAuth.js v5 (next-auth@5), credentials provider + JWT session strategy
 - Seed user: lucy@lucy.eu / changeme123, role: admin
 - Run `npm run db:seed` to create seed user after first migration
 - Route protection in `proxy.ts` (Next.js 16 replaced `middleware.ts` with `proxy.ts`)
+- `trustHost: true` set in `lib/auth.ts` for sliplane.io deployment
 
 ## Modularity rules
 - API routes must be thin: validate input → call service → return JSON. No logic in routes.
@@ -27,6 +28,6 @@
 
 ## Deployment
 - Dockerfile in root, targets sliplane.io
-- Required env vars: `DATABASE_URL`, `BETTER_AUTH_SECRET`, `NEXT_PUBLIC_URL`
+- Required env vars: `DATABASE_URL`, `AUTH_SECRET`, `NEXT_PUBLIC_URL`
 - GitHub main → Sliplane auto-deploy
 - SQLite db file persisted via Docker volume `/data`

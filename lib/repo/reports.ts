@@ -35,6 +35,6 @@ export async function upsertReport(userId: string, date: string, content: string
     .returning();
 }
 
-export async function deleteReport(id: string, userId: string) {
+export async function deleteReport(id: string, _userId: string) {
   return db.delete(reports).where(eq(reports.id, id));
 }
