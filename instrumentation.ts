@@ -54,6 +54,10 @@ export async function register() {
       role: "admin",
     });
     console.log("[startup] Seeded lucy@lucy.eu as admin");
+  } else if (!existing.password) {
+    const hashedPassword = await bcrypt.hash("changeme123", 12);
+    await db.update(users).set({ password: hashedPassword }).where(eq(users.email, "lucy@lucy.eu"));
+    console.log("[startup] Repaired missing password for lucy@lucy.eu");
   } else {
     console.log("[startup] Seed user already exists, skipping");
   }
