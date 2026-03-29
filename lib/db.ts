@@ -30,9 +30,9 @@ export function getDb(): DB {
   return _db!;
 }
 
-export function getSqlite() {
+export function getSqlite(): SQLiteDatabase {
   if (!_sqlite) getDb();
-  return _sqlite;
+  return _sqlite!;
 }
 
 // Convenience proxy so existing `db.query.*` calls keep working
